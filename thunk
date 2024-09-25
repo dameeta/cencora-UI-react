@@ -1,0 +1,23 @@
+// action creators
+
+// Action Creator returns action
+loadUser = (userData) => ({
+  type: "LOAD_USER_DATA", userData
+})
+
+/* 
+  Action Creator which returns function which dispatches other actions
+*/
+fetchUser = (usersUrl) => (dispatch) => {
+  dispatch({ type: "DISPLAY_LOADING_SCREEN" })
+  
+  return fetch(usersUrl)
+    .then(response => response.json())
+    .then((json) => {
+      if (json.success) {
+        dispatch({ type: "LOAD_USER_DATA", json.userData })
+      } else {
+        dispatch({ type: "LOAD_USER_FAILED" })
+      }
+    })
+}
